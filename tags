@@ -1,0 +1,108 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+BYTE	sound.h	/^	typedef unsigned char  BYTE;$/;"	t	class:mSound
+CHANNELS	sound.h	9;"	d
+CON	Makefile	/^CON= -O2$/;"	m
+D	sounddata.h	/^static const int D[3][8] = {$/;"	v
+DATA_BLOCK	sound.h	/^	typedef struct DATA_BLOCK  {$/;"	s	class:mSound
+DWORD	sound.h	/^	typedef unsigned int   DWORD;$/;"	t	class:mSound
+ESC_KEY	keyboardctl.h	8;"	d
+FACT_BLOCK	sound.h	/^	typedef struct FACT_BLOCK  {$/;"	s	class:mSound
+FMT_BLOCK	sound.h	/^	struct FMT_BLOCK { $/;"	s	class:mSound
+FactBlockHeader	sound.h	/^	}FactBlockHeader;\/\/ 12 B$/;"	t	class:mSound	typeref:struct:mSound::FACT_BLOCK
+Format	sound.h	/^		char Format[4];\/\/ "TONE"$/;"	m	struct:mSound::tagFileHeader
+INC	Makefile	/^INC=sound.h keyboardctl.h$/;"	m
+LENGTH	sound.h	6;"	d
+NDEBUGE	sound.h	144;"	d
+None	sound.cpp	567;"	d	file:
+OBJ	Makefile	/^OBJ=main.o sound.o keyboardctl.o$/;"	m
+PWM_IOCTL_SET_FREQ	keyboardctl.h	6;"	d
+PWM_IOCTL_STOP	keyboardctl.h	7;"	d
+RATE	sound.h	7;"	d
+RIFF_CHUNK_HEADER	sound.h	/^	typedef struct RIFF_CHUNK_HEADER  {$/;"	s	class:mSound
+RIFF_HEADER	sound.h	/^	struct RIFF_HEADER  {$/;"	s	class:mSound
+SIZE	sound.h	8;"	d
+TonFileHeader	sound.h	/^	}TonFileHeader; \/\/ my file type$/;"	t	class:mSound	typeref:struct:mSound::tagFileHeader
+WAVDataBlockHeader	sound.h	/^	}WAVDataBlockHeader; \/\/ 8 B wave data will follow this block$/;"	t	class:mSound	typeref:struct:mSound::DATA_BLOCK
+WAVE_FORMAT	sound.h	/^	struct WAVE_FORMAT  { $/;"	s	class:mSound
+WAVFileHeader	sound.h	/^	}WAVFileHeader;\/\/ 56 B$/;"	t	class:mSound	typeref:struct:mSound::tagWAVFileHeader
+WORD	sound.h	/^	typedef unsigned short WORD;$/;"	t	class:mSound
+__COSWAVE__	sound.cpp	171;"	d	file:
+__DEBUGE_CREATESONG16	sound.h	147;"	d
+__DEBUGE_PLAYSONG	sound.h	149;"	d
+__DEBUGE_PLAYSORA	sound.h	146;"	d
+__KEYBOARDCTL_H__	keyboardctl.h	2;"	d
+__NSMOOTHDEBUG	sound.h	140;"	d
+__NSMOOTHTONEDEBUG	sound.h	141;"	d
+__PLAY	main.cpp	9;"	d	file:
+__SOUND_DATA_H__	sounddata.h	2;"	d
+__SOUND_H__	sound.h	2;"	d
+__TONE16__	sound.h	142;"	d
+buf	sound.h	/^	unsigned char *buf; \/\/ tone buf for 8bit sample$/;"	m	class:mSound
+buf16	sound.h	/^	short         *buf16; \/\/ tone buf for 16bit sample, will be used in createTone16 fucntion$/;"	m	class:mSound
+buf16Size	sound.h	/^	int           buf16Size; \/\/ save the buf16 size$/;"	m	class:mSound
+createSong	sound.cpp	/^int mSound::createSong(unsigned char *&wave, int freq[], int pau[], int clap, int n, unsigned char vol,$/;"	f	class:mSound
+createSong16	sound.cpp	/^int mSound::createSong16(short *&wave, int freq[], int pau[], int clap, int n, short vol,$/;"	f	class:mSound
+createTone	sound.cpp	/^int mSound::createTone(int freq, int duration, unsigned char vol)$/;"	f	class:mSound
+createTone16	sound.cpp	/^int mSound::createTone16(int freq, int duration, short vol)$/;"	f	class:mSound
+createWAVFile	sound.cpp	/^int mSound::createWAVFile(const char *filename, BYTE *wave, const int waveSize,$/;"	f	class:mSound
+dataSize	sound.h	/^		unsigned int dataSize;$/;"	m	struct:mSound::tagFileHeader
+dwAvgBytesPerSec	sound.h	/^		DWORD dwAvgBytesPerSec; \/\/   $/;"	m	struct:mSound::WAVE_FORMAT
+dwCHUNKSize	sound.h	/^		DWORD dwCHUNKSize; \/\/ size$/;"	m	struct:mSound::RIFF_CHUNK_HEADER
+dwDataSize	sound.h	/^		DWORD dwDataSize;  \/\/ data size$/;"	m	struct:mSound::DATA_BLOCK
+dwFactSize	sound.h	/^		DWORD  dwFactSize;  \/\/ 4$/;"	m	struct:mSound::FACT_BLOCK
+dwFmtSize	sound.h	/^		DWORD  dwFmtSize;  \/\/ 16$/;"	m	struct:mSound::FMT_BLOCK
+dwRiffSize	sound.h	/^		DWORD dwRiffSize;      \/\/ filesize - 8$/;"	m	struct:mSound::RIFF_HEADER
+dwSamplesPerSec	sound.h	/^		DWORD dwSamplesPerSec;  \/\/ RATE$/;"	m	struct:mSound::WAVE_FORMAT
+exReadWAVFile	sound.cpp	/^int mSound::exReadWAVFile(FILE *fp, BYTE *&wave, int &waveSize)$/;"	f	class:mSound
+fmtBlock	sound.h	/^		struct FMT_BLOCK  	fmtBlock;$/;"	m	struct:mSound::tagWAVFileHeader	typeref:struct:mSound::tagWAVFileHeader::FMT_BLOCK
+getch	keyboardctl.cpp	/^int getch(void)$/;"	f
+initDSP	sound.cpp	/^int mSound::initDSP(int &handler, int size, int channels, int rate)$/;"	f	class:mSound
+mSound	sound.cpp	/^mSound::mSound():$/;"	f	class:mSound
+mSound	sound.h	/^class mSound$/;"	c
+main	main.cpp	/^int main(int argc, char * argv[])$/;"	f
+musicSora	sounddata.h	/^static int	musicSora[] = {$/;"	v
+pauseSora	sounddata.h	/^static int	pauseSora[] = {$/;"	v
+playFreq	sound.cpp	/^int mSound::playFreq(int handler, int freq, int duration, unsigned char vol)\/\/duration:last time \/ms$/;"	f	class:mSound
+playSong	sound.cpp	/^int mSound::playSong(const char *filename)$/;"	f	class:mSound
+playSong	sound.cpp	/^int mSound::playSong(int handler, unsigned char wave[], int len)$/;"	f	class:mSound
+playSora	sound.cpp	/^int mSound::playSora()$/;"	f	class:mSound
+playTunes	sound.cpp	/^int mSound::playTunes(int handler, int freq[], int pau[], int clap, int n, unsigned char vol)$/;"	f	class:mSound
+readSong	sound.cpp	/^int mSound::readSong(const char *filename, BYTE *&wave)$/;"	f	class:mSound
+readTones	sound.cpp	/^int mSound::readTones(const char *filename, int *&Tones, int *&Pause)$/;"	f	class:mSound
+readWAVFile	sound.cpp	/^int mSound::readWAVFile(WAVFileHeader &fh, const char *filename, BYTE *&wave, $/;"	f	class:mSound
+riffChunkHeader	sound.h	/^	} riffChunkHeader; \/\/ followed by chunk data$/;"	t	class:mSound	typeref:struct:mSound::RIFF_CHUNK_HEADER
+riffHeader	sound.h	/^		struct RIFF_HEADER  riffHeader;$/;"	m	struct:mSound::tagWAVFileHeader	typeref:struct:mSound::tagWAVFileHeader::RIFF_HEADER
+saveSong	sound.cpp	/^int mSound::saveSong(const char *filename, BYTE *wave, const int size,$/;"	f	class:mSound
+saveTones	sound.cpp	/^int mSound::saveTones(const char *filename, int Tones[], int Pause[], int len)$/;"	f	class:mSound
+smoothSong	sound.cpp	/^int mSound::smoothSong(int len, unsigned char *wave)$/;"	f	class:mSound
+smoothTone	sound.cpp	/^int mSound::smoothTone(int n, unsigned char vol, unsigned char voice, unsigned char *buff)$/;"	f	class:mSound
+smoothTone16	sound.cpp	/^int mSound::smoothTone16(int n, short vol, short voice, short *buff)$/;"	f	class:mSound
+smoothfunc	sound.cpp	563;"	d	file:
+sound	main.cpp	/^int sound(int handler, mSound ms)$/;"	f
+szCHUNKID	sound.h	/^		char szCHUNKID[4]; \/\/ ID$/;"	m	struct:mSound::RIFF_CHUNK_HEADER
+szDataID	sound.h	/^		char  szDataID[4]; \/\/ 'd','a','t','a'$/;"	m	struct:mSound::DATA_BLOCK
+szFactID	sound.h	/^		char   szFactID[4]; \/\/ 'f','a','c','t'$/;"	m	struct:mSound::FACT_BLOCK
+szFmtID	sound.h	/^		char   szFmtID[4]; \/\/ 'f','m','t',' '   $/;"	m	struct:mSound::FMT_BLOCK
+szRiffFormat	sound.h	/^		char  szRiffFormat[4]; \/\/ 'W','A','V','E' $/;"	m	struct:mSound::RIFF_HEADER
+szRiffID	sound.h	/^		char  szRiffID[4];     \/\/ 'R','I','F','F'  $/;"	m	struct:mSound::RIFF_HEADER
+tHandler	sound.h	/^	int           tHandler; \/\/ temp Handler$/;"	m	class:mSound
+tInitDSP	sound.cpp	/^int mSound::tInitDSP(int size, int channels, int rate)$/;"	f	class:mSound
+tagFileHeader	sound.h	/^	typedef struct tagFileHeader$/;"	s	class:mSound
+tagWAVFileHeader	sound.h	/^	typedef struct tagWAVFileHeader  {$/;"	s	class:mSound
+tran	sound.cpp	562;"	d	file:
+wBitsPerSample	sound.h	/^		WORD  wBitsPerSample;	\/\/ SIZE$/;"	m	struct:mSound::WAVE_FORMAT
+wBitsPerSample	sound.h	/^		unsigned int wBitsPerSample;$/;"	m	struct:mSound::tagFileHeader
+wBlockAlign	sound.h	/^		WORD  wBlockAlign;		\/\/ BytePerSample$/;"	m	struct:mSound::WAVE_FORMAT
+wChannels	sound.h	/^		WORD  wChannels;		\/\/ CHANNELS$/;"	m	struct:mSound::WAVE_FORMAT
+wChannels	sound.h	/^		unsigned int wChannels;	\/\/ $/;"	m	struct:mSound::tagFileHeader
+wFormatTag	sound.h	/^		WORD  wFormatTag;		\/\/ 0x0001$/;"	m	struct:mSound::WAVE_FORMAT
+wRate	sound.h	/^		unsigned int wRate;		\/\/ Hz$/;"	m	struct:mSound::tagFileHeader
+wTonesSize	sound.h	/^		unsigned int wTonesSize;$/;"	m	struct:mSound::tagFileHeader
+wavFormat	sound.h	/^		struct WAVE_FORMAT wavFormat;  $/;"	m	struct:mSound::FMT_BLOCK	typeref:struct:mSound::FMT_BLOCK::WAVE_FORMAT
+wavfHandler	sound.h	/^	WAVFileHeader wavfHandler; \/\/ temp wav file handler$/;"	m	class:mSound
+~mSound	sound.cpp	/^mSound::~mSound()$/;"	f	class:mSound
