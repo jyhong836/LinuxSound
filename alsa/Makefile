@@ -2,8 +2,8 @@ default: SoundAD
 
 # test: testALSA openDevice record play
 
-# LIB= -ldl -lm -lasound
-# OBJ= main.o SoundAD.o
+LIB= -ldl -lm -lasound
+OBJ= main.o SoundAD.o
 
 # testALSA: testALSA.cpp
 # 	g++ -o testALSA testALSA.cpp $(LIB)
