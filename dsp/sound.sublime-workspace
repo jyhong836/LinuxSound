@@ -102,10 +102,12 @@
 	},
 	"expanded_folders":
 	[
-		"/D/Data/Shared Virtaul Machine/Ubuntu10.04FromXP/shareProgram/program/my/cpp/sound"
+		"/D/Docs/code/GitHub/LinuxSound"
 	],
 	"file_history":
 	[
+		"/D/Docs/code/GitHub/LinuxSound/music.wav",
+		"/D/Docs/code/GitHub/LinuxSound/sound.sublime-project",
 		"/home/jyhong/.config/sublime-text-3/Packages/Alignment/Default (Linux).sublime-keymap",
 		"/home/jyhong/.config/sublime-text-3/Packages/User/Default (Linux).sublime-keymap",
 		"/home/jyhong/.config/sublime-text-3/Packages/Default/Default (Linux).sublime-keymap",
@@ -122,7 +124,7 @@
 	],
 	"find":
 	{
-		"height": 25.0
+		"height": 33.0
 	},
 	"find_in_files":
 	{
@@ -136,6 +138,9 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"tInitDSP",
+			"dsp",
+			"readWAVFile",
 			"f4",
 			"ctrl+space",
 			"space"
@@ -202,21 +207,69 @@
 						"selection":
 						[
 							[
-								528,
-								528
+								1929,
+								1937
 							]
 						],
 						"settings":
 						{
+							"c_time":
+							[
+								128,
+								3,
+								99,
+								100,
+								97,
+								116,
+								101,
+								116,
+								105,
+								109,
+								101,
+								10,
+								100,
+								97,
+								116,
+								101,
+								116,
+								105,
+								109,
+								101,
+								10,
+								113,
+								0,
+								67,
+								10,
+								7,
+								222,
+								11,
+								21,
+								11,
+								28,
+								20,
+								0,
+								0,
+								0,
+								113,
+								1,
+								133,
+								113,
+								2,
+								82,
+								113,
+								3,
+								46
+							],
+							"incomplete_sync": null,
 							"origin_encoding": "ASCII",
 							"syntax": "Packages/C++/C++.tmLanguage",
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 255.0,
+						"translation.y": 563.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 3,
+					"stack_index": 2,
 					"type": "text"
 				},
 				{
@@ -232,8 +285,8 @@
 						"selection":
 						[
 							[
-								15280,
-								15280
+								6759,
+								6759
 							]
 						],
 						"settings":
@@ -291,16 +344,16 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 3883.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 1,
 					"type": "text"
 				}
 			]
 		},
 		{
-			"selected": 0,
+			"selected": 1,
 			"sheets":
 			[
 				{
@@ -317,7 +370,7 @@
 						[
 							[
 								386,
-								0
+								386
 							]
 						],
 						"settings":
@@ -377,7 +430,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 3,
 					"type": "text"
 				},
 				{
@@ -393,22 +446,70 @@
 						"selection":
 						[
 							[
-								320,
-								320
+								1407,
+								1411
 							]
 						],
 						"settings":
 						{
+							"c_time":
+							[
+								128,
+								3,
+								99,
+								100,
+								97,
+								116,
+								101,
+								116,
+								105,
+								109,
+								101,
+								10,
+								100,
+								97,
+								116,
+								101,
+								116,
+								105,
+								109,
+								101,
+								10,
+								113,
+								0,
+								67,
+								10,
+								7,
+								222,
+								11,
+								21,
+								11,
+								28,
+								20,
+								0,
+								0,
+								0,
+								113,
+								1,
+								133,
+								113,
+								2,
+								82,
+								113,
+								3,
+								46
+							],
+							"incomplete_sync": null,
 							"origin_encoding": "ASCII",
 							"spell_check": false,
 							"syntax": "Packages/C++/C++.tmLanguage",
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 195.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 0,
 					"type": "text"
 				}
 			]
@@ -502,7 +603,7 @@
 	"show_open_files": false,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 150.0,
+	"side_bar_width": 171.0,
 	"status_bar_visible": true,
 	"template_settings":
 	{
