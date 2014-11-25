@@ -1,9 +1,13 @@
-default: SoundAD
+default: SoundADMain
 
 # test: testALSA openDevice record play
-
-LIB= -ldl -lm -lasound
-OBJ= main.o SoundAD.o
+CFLAGS += # header files
+DIR_FFT = ./fft/
+LIBS += -ldl -lm -lasound
+LDFLAGS += # lib files
+OBJ += main.o SoundAD.o 
+FFTOBJ = $(DIR_FFT)FFT.o $(DIR_FFT)mailbox.o $(DIR_FFT)gpu_fft.o $(DIR_FFT)gpu_fft_twiddles.o $(DIR_FFT)gpu_fft_shaders.o
+CXXFALGS += -g -DCORRECT_AMP # -DVERB
 
 # testALSA: testALSA.cpp
 # 	g++ -o testALSA testALSA.cpp $(LIB)
@@ -17,11 +21,14 @@ OBJ= main.o SoundAD.o
 # play: play.cpp
 # 	g++ -o play play.cpp $(LIB)
 
-SoundAD: $(OBJ)
-	g++ -o SoundADMain $(OBJ) $(LIB)
+SoundADMain: $(OBJ) $(FFTOBJ)
+	$(CXX) $(CXXFALGS) -o SoundADMain $(OBJ) $(FFTOBJ) $(LIBS)
 
 SoundAD.o: SoundAD.cpp SoundAD.h
-	g++ -c -o SoundAD.o SoundAD.cpp 
+	$(CXX) $(CXXFALGS) -c -o SoundAD.o SoundAD.cpp 
+
+%.o: %.cpp
+	$(CXX) $(CXXFALGS) -c -o $@ $<
 
 clean: 
 	rm -f $(OBJ)

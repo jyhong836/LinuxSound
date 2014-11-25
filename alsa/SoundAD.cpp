@@ -2,14 +2,15 @@
 * @Author: Junyuan Hong
 * @Date:   2014-11-24 16:34:04
 * @Last Modified by:   Junyuan Hong
-* @Last Modified time: 2014-11-24 21:02:26
+* @Last Modified time: 2014-11-25 20:35:18
 */
 
 #include <iostream>
 
 #include "SoundAD.h"
 
-// #define _VERB_
+// #define VERB
+// #define CORRECT_AMP
 
 using namespace std;
 
@@ -17,12 +18,14 @@ SoundAD::SoundAD():
 handle(0),
 // sampleRate(44100),
 sampleRate(9600),
-frames(32),
-channels(1)
+frames(204),
+channels(1),
+data(NULL)
 {
 	pcm_format = SND_PCM_FORMAT_FLOAT_LE;
 	OpenDevice();
 	Configure();
+	// fft = new FFT();
 }
 
 SoundAD::~SoundAD()
@@ -40,7 +43,7 @@ void
 SoundAD::OpenDevice()
 {
 
-#ifdef _VERB_
+#ifdef VERB
 	cout << "Open device..." << endl;
 #endif
 
@@ -62,7 +65,7 @@ SoundAD::OpenDevice()
 
 	// printf("%x %x\n", (int)params, (int)handle);
 
-#ifdef _VERB_
+#ifdef VERB
 	cout << "Open device...success" << endl;
 #endif
 
@@ -136,8 +139,8 @@ SoundAD::DisplayConfigure()
 	val = snd_pcm_hw_params_get_sbits(params);
 	printf("significant bits = %d\n", val);
 
-	snd_pcm_hw_params_get_tick_time(params,
-	                                  &val, &dir);
+	// snd_pcm_hw_params_get_tick_time(params,
+	//                                   &val, &dir);
 	printf("tick time = %d us\n", val);
 
 	val = snd_pcm_hw_params_is_batch(params);
@@ -175,7 +178,7 @@ SoundAD::DisplayConfigure()
 int 
 SoundAD::Configure() 
 {
-#ifdef _VERB_
+#ifdef VERB
 	cout << "Configure device..." << endl;
 #endif
 
@@ -200,9 +203,9 @@ SoundAD::Configure()
 	// val = 44100;
 	snd_pcm_hw_params_set_rate_near(handle, params, &sampleRate, &dir);
 
-	/* Set period size to 32 frames. */
-	// frames = 32;
-	snd_pcm_hw_params_set_period_size_near(handle, params, &frames, &dir);
+	/* Set period size to 204 frames. */
+	// frames = 204;
+	snd_pcm_hw_params_set_period_size_near(handle, params, &frames, &dir); // frames will be updated
 
 	/* Write the parameters to the driver */
 	rc = snd_pcm_hw_params(handle, params);
@@ -213,7 +216,12 @@ SoundAD::Configure()
 	    exit(1);
 	}
 
-#ifdef _VERB_
+#ifdef VERB
+	cout << "  mode:        " << snd_pcm_access_name(SND_PCM_ACCESS_RW_INTERLEAVED) << endl;
+	cout << "  pcm format:  " << snd_pcm_format_name(pcm_format) << endl;
+	cout << "  channels:    " << channels << "ch" << endl;
+	cout << "  sample rate: " << sampleRate << " sps" << endl;
+	cout << "  period size: " << frames << " frames" << endl;
 	cout << "Configure device...success" << endl;
 #endif
 
@@ -221,6 +229,10 @@ SoundAD::Configure()
 
 }
 
+/**
+ * 
+ * @return 		the number of frames
+ */
 int
 SoundAD::Record(int period) {
 
@@ -230,10 +242,15 @@ SoundAD::Record(int period) {
 	size_t size;
 	long loops;
 
+	if (this->data==NULL) {
+		perror("the buffer memory has not been malloced");
+		return -1;
+	}
+
 	/* Use a buffer large enough to hold one period */
 	snd_pcm_hw_params_get_period_size(params, &frames, &dir);
 	size = frames * 4; /* 2 bytes/sample, 2 channels */
-	buffer = (char *) malloc(size);
+	// buffer = (char *) malloc(size);
 
 	/* We want to loop for 5 seconds */
 	snd_pcm_hw_params_get_period_time(params, &val, &dir); // period time: 21333 us
@@ -241,9 +258,11 @@ SoundAD::Record(int period) {
 	loops = period;
 	// record_max = 0;
 
-	while (loops > 0) {
+	for (int i = 0; i < loops; i++) {
+	// while (loops > 0) {
 
-	    loops--;
+	    // loops--;
+	    buffer = this->data + i*size;
 	    rc = snd_pcm_readi(handle, buffer, frames);
 
 	    if (rc == -EPIPE) {
@@ -263,19 +282,69 @@ SoundAD::Record(int period) {
 	    }
 
 	    // rc = write(1, buffer, size); // write to stdout
-	    rc = PrintBuffer(buffer, size);
-	    if (rc != size) 
-	    	fprintf(stderr, "short write: wrote %d bytes\n", rc);
+	    // rc = PrintBuffer(buffer, size);
+	    // if (rc != size) 
+	    // 	fprintf(stderr, "short write: wrote %d bytes\n", rc);
 	}
 
-	free(buffer);
+	// free(buffer);
 
 	// cout << "max: "<<record_max <<endl;
 
-	return loops*val/1000;
+	return period*frames;
 
 }
 
+int
+SoundAD::GetData(float *sig, float *freq)
+{
+	return GetData(sig, DEFAULT_PERIOD_NUM, freq);
+}
+
+int
+SoundAD::GetData(float *sig)
+{
+	return this->GetData(sig, DEFAULT_PERIOD_NUM); // 4284 samples
+}
+
+int
+SoundAD::GetData(float *sig, int period, float *freq)
+{
+	this->GetData(sig, period);
+	memcpy(freq, sig, frames*period*sizeof(float));
+	fft.exe_fft(freq, NULL);
+	return 0;
+}
+
+/**
+ * 
+ * @param  buffer [description]
+ * @param  period [description]
+ * @return        the number of frames or samples.
+ */
+int 
+SoundAD::GetData(float *buffer, int period)
+{
+	this->data = (char *)buffer;
+	int ret = 0;
+	ret = Record(period);
+
+#ifdef CORRECT_AMP
+	for (int i = 0; i < 204*21; ++i)
+	{
+		buffer[i] /= SOUND_AMP_RATE;
+	}
+#endif
+	// buffer = (float *)(this->data);
+	return ret;
+}
+
+/**
+ * Print char *buffer in float format
+ * @param  buffer [description]
+ * @param  size   [description]
+ * @return        [description]
+ */
 int 
 SoundAD::PrintBuffer(char *buffer, size_t size)
 {
