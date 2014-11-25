@@ -2,7 +2,7 @@
 * @Author: Junyuan Hong
 * @Date:   2014-11-24 16:34:04
 * @Last Modified by:   Junyuan Hong
-* @Last Modified time: 2014-11-25 20:35:18
+* @Last Modified time: 2014-11-25 22:22:53
 */
 
 #include <iostream>
@@ -20,17 +20,32 @@ handle(0),
 sampleRate(9600),
 frames(204),
 channels(1),
-data(NULL)
+data(NULL),
+buffer1(NULL),
+buffer2(NULL)
 {
 	pcm_format = SND_PCM_FORMAT_FLOAT_LE;
 	OpenDevice();
 	Configure();
 	// fft = new FFT();
+	InitDataBuffer();
 }
 
 SoundAD::~SoundAD()
 {
 	CloseDevice();
+}
+
+int
+SoundAD::InitDataBuffer()
+{
+	buffer1 = (float *)malloc(frames*DEFAULT_PERIOD_NUM*sizeof(float));
+	buffer2 = (float *)malloc(frames*DEFAULT_PERIOD_NUM*sizeof(float));
+	if (!buffer1 || !buffer2)
+	{
+		cerr << "malloc failed...exit" << endl;
+		exit(-1);
+	}
 }
 
 /**
@@ -216,12 +231,15 @@ SoundAD::Configure()
 	    exit(1);
 	}
 
+	snd_pcm_hw_params_get_period_time(params, &period_time, &dir);
+
 #ifdef VERB
 	cout << "  mode:        " << snd_pcm_access_name(SND_PCM_ACCESS_RW_INTERLEAVED) << endl;
 	cout << "  pcm format:  " << snd_pcm_format_name(pcm_format) << endl;
 	cout << "  channels:    " << channels << "ch" << endl;
 	cout << "  sample rate: " << sampleRate << " sps" << endl;
 	cout << "  period size: " << frames << " frames" << endl;
+	cout << "  period time: " << period_time << " us" << endl;
 	cout << "Configure device...success" << endl;
 #endif
 
@@ -296,9 +314,12 @@ SoundAD::Record(int period) {
 }
 
 int
-SoundAD::GetData(float *sig, float *freq)
+SoundAD::GetData(float *&sig, float *&freq)
 {
-	return GetData(sig, DEFAULT_PERIOD_NUM, freq);
+	int ret = GetData(buffer1, DEFAULT_PERIOD_NUM, buffer2);
+	sig = buffer1;
+	freq = buffer2;
+	return ret;
 }
 
 int
@@ -339,6 +360,63 @@ SoundAD::GetData(float *buffer, int period)
 	return ret;
 }
 
+float 
+SoundAD::GetValue()
+{
+	return this->GetValue(DEFAULT_FIELT_FREQ_MIN, DEFAULT_FIELT_FREQ_MAX);
+}
+
+float
+SoundAD::GetValue(int filt_freq_min, int filt_freq_max)
+{
+	return this->GetValue(filt_freq_min, filt_freq_max, DEFAULT_WINDOW_MIN, DEFAULT_WINDOW_MAX);
+}
+
+/**
+ * @param  filt_freq_min the min frequency
+ * @param  filt_freq_max the max frequency
+ * @return               return the max value of signal in 21 sec, which has been filtered in 20~60hz
+ */
+float
+SoundAD::GetValue(int filt_freq_min, int filt_freq_max, int win_min, int win_max)
+{
+	this->GetData(buffer1, DEFAULT_PERIOD_NUM);
+	// memcpy(freq, sig, frames*period*sizeof(float));
+	fft.exe_fft(buffer1, buffer2); // buffer1 is amp, buffer2 is phase
+
+	filt_freq_min = filt_freq_min*(period_time*DEFAULT_PERIOD_NUM) / 1e6; //20Hz
+	filt_freq_max = filt_freq_max*(period_time*DEFAULT_PERIOD_NUM) / 1e6;
+
+	for (int i = 0; i <= filt_freq_min; ++i)
+	{
+		buffer1[i] *=1e-5;
+	}
+	for (int i = filt_freq_max; i <= DEFAULT_FFT_LEN/2; ++i)
+	{
+		buffer1[i] *=1e-5;
+	}
+	for (int i = 0; i <= filt_freq_min; ++i)
+	{
+		buffer1[DEFAULT_FFT_LEN - i] *=1e-5;
+	}
+	for (int i = filt_freq_max; i <= DEFAULT_FFT_LEN/2; ++i)
+	{
+		buffer1[DEFAULT_FFT_LEN - i] *=1e-5;
+	}
+
+	fft.exe_ifft(buffer1, buffer2);
+
+	float maxvalue = 0;
+	for (int i = win_min; i < win_max; ++i)
+	{
+		if (buffer1[i]>maxvalue)
+			maxvalue = buffer1[i];
+		// cout << buffer1[i] << endl;
+	}
+
+	return maxvalue;
+}
+
 /**
  * Print char *buffer in float format
  * @param  buffer [description]
@@ -368,6 +446,8 @@ SoundAD::PrintBuffer(char *buffer, size_t size)
 void 
 SoundAD::CloseDevice()
 {
+	free(buffer1);
+	free(buffer2);
 	snd_pcm_drain(handle);
 	snd_pcm_close(handle);
 	snd_pcm_hw_params_free(params);

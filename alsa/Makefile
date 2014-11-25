@@ -7,7 +7,7 @@ LIBS += -ldl -lm -lasound
 LDFLAGS += # lib files
 OBJ += main.o SoundAD.o 
 FFTOBJ = $(DIR_FFT)FFT.o $(DIR_FFT)mailbox.o $(DIR_FFT)gpu_fft.o $(DIR_FFT)gpu_fft_twiddles.o $(DIR_FFT)gpu_fft_shaders.o
-CXXFALGS += -g -DCORRECT_AMP # -DVERB
+CXXFALGS += -O2 -g -DCORRECT_AMP # -DVERB
 
 # testALSA: testALSA.cpp
 # 	g++ -o testALSA testALSA.cpp $(LIB)

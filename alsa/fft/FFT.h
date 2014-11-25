@@ -7,6 +7,8 @@ extern "C"
 	#include "gpu_fft.h"
 }
 
+#define	 DEFAULT_FFT_LEN  4096
+
 class FFT
 {
 private:

@@ -2,7 +2,7 @@
 * @Author: Junyuan Hong
 * @Date:   2014-11-24 16:55:23
 * @Last Modified by:   Junyuan Hong
-* @Last Modified time: 2014-11-25 20:46:39
+* @Last Modified time: 2014-11-25 22:37:29
 */
 
 #include <iostream>
@@ -28,22 +28,27 @@ void revCopy(float *buf, size_t size)
 	}
 }
 
-/**
- * Usage:
- * 		./SoundADMain m
- * 			display the messages
- * 		./SoundADMain <period num>
- * 			record numbers of period data(1 period is 21333 us)
- */
+char Usage[] = 
+	"Usage: SoundADMain [options | <period num>]\n"
+	"	options:\n"
+	"		m - display the messages\n"
+	"		d - print the signal and frequncy-amp. (test the GetData func)\n"
+	"		v - print the signal max-value. (test the GetValue func)\n"
+	"		h - print help messages\n"
+	"	<period num>\n"
+	"		record numbers of period data(1 period is 21333 us)\n";
+
 int main(int argc, char const *argv[])
 {
 	SoundAD sad;
-	if (argc > 1)
-		if (argv[1][0]=='m')
+	if (argc > 1) 
+	{
+		if (argv[1][0]=='m') // print useful messages
 		{
 			sad.DisplayALSAEnabled();
 			sad.DisplayConfigure();
 		}
+		/*
 		else if (argv[1][0]=='f') {
 			// FFT fft;
 		#ifdef VERB
@@ -84,28 +89,36 @@ int main(int argc, char const *argv[])
 			cout << "rms error = " << sqrt(rms[1]/rms[0]) << endl;
 			cout << "max diff  = " << (maxbuf[1] - maxbuf[0])/maxbuf[1] << endl;
 		#endif
-		} else  if (argv[1][0]=='t')
+		}
+		*/
+		else  if (argv[1][0]=='d') // test GetData
 		{
 		#ifdef VERB
 			unsigned t1 = FFT::GetSystemMicroseconds();
 		#endif
-			size_t buffer_sz = 204*21*sizeof(float);
-			float *buffer = (float *) malloc(buffer_sz);
-			float *freq  = (float *) malloc(buffer_sz);
-			if (!buffer || !freq)
-			{
-				cerr << "malloc failed" << endl;
-			}
+			float *buffer;
+			float *freq;
+
 			int N = sad.GetData(buffer, freq);
-			for (int i = 0; i < 4096; ++i)
+			for (int i = 0; i < DEFAULT_FFT_LEN; ++i)
 				cout << buffer[i] << "\t" << freq[i] << endl;
 		#ifdef VERB
 			cout << "totoal time: " << (FFT::GetSystemMicroseconds() - t1)/1000 << " ms" << endl;
 		#endif
-		} else
-			sad.Record(atoi(argv[1]));
+		} else if (argv[1][0] == 'v') // test GetValue
+		{
+			if (argc > 3) {
+				if (argc>5)
+					cout << sad.GetValue(atoi(argv[2]), atoi(argv[3]), atoi(argv[4]), atoi(argv[5])) << endl;
+				else
+					cout << sad.GetValue(atoi(argv[2]), atoi(argv[3])) << endl;
+			} else
+				cout << sad.GetValue() << endl;
+		}
+	}
 	else
-		sad.Record(1);
+		// printf(Usage);
+		cout << Usage << endl;
     
     return 0;
 }
