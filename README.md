@@ -22,7 +22,7 @@ Before you run it, please check if the device `/dev/dsp` exist.
 
 Process the audio in Linux System, where the libasound is installed. In Debian, you can install the neccessary lib with `apt-get install libasound2-dev`, and you may also want the doc, `apt-get install libasound2-doc`, which is in html format.
 
-I have applied this part code in my `Raspberry Pi` with a USB card. I have use the GPU of raspberry pi to speed up the fft proccess. The fft code in `alsa/fft/` is created by Andrew Holme, which is included in raspbian system `/opt/vc/src/hello_pi/hello_fft`.
+I have applied this part code in my `Raspberry Pi` with a USB card. I have use the GPU of raspberry pi to speed up the fft proccess. The fft code in `alsa/fft/` is created by [Andrew Holme](http://www.raspberrypi.org/tag/andrew-holme/), which is included in raspbian system `/opt/vc/src/hello_pi/hello_fft`.
 
 #### Features
 
@@ -31,7 +31,7 @@ I have applied this part code in my `Raspberry Pi` with a USB card. I have use t
 
 ### About FFT in Raspberry Pi
 
-You can read my introduction to FFT with GPU in Rasp-Pi by visiting my blog page, [raspberry pi use GPU to do FFT](https://jyhong.blog.ustc.edu.cn/2014/11/raspberry-pi-use-gpu-to-do-fft/) in Chinese, or Eben Upton's post [Accelerating Fourier transforms using the GPU](http://www.raspberrypi.org/accelerating-fourier-transforms-using-the-gpu/ "Accelerating Fourier transforms using the GPU") in English.
+You can read my introduction to FFT with GPU in Rasp-Pi by visiting my [blog](http://jyhong.blog.ustc.edu.cn) page, [raspberry pi use GPU to do FFT](https://jyhong.blog.ustc.edu.cn/2014/11/raspberry-pi-use-gpu-to-do-fft/) in Chinese, or [Eben Upton](http://www.raspberrypi.org/author/eben/)'s post [Accelerating Fourier transforms using the GPU](http://www.raspberrypi.org/accelerating-fourier-transforms-using-the-gpu/ "Accelerating Fourier transforms using the GPU") in English.
 
 You can run the program in `alsa/` with command `./SoundADMain` in bash, the help message will be printed.
 
