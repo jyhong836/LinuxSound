@@ -38,3 +38,4 @@ You can run the program in `alsa/` with command `./SoundADMain` in bash, the hel
 #### Reference
 
 + [【Linux&音频】Alsa音频编程【精华】](http://blog.csdn.net/tianshuai1111/article/details/8191711)
++ [Accelerating Fourier transforms using the GPU](http://www.raspberrypi.org/accelerating-fourier-transforms-using-the-gpu/ "Accelerating Fourier transforms using the GPU")
