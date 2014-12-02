@@ -2,7 +2,7 @@
 * @Author: Junyuan Hong
 * @Date:   2014-11-24 16:34:04
 * @Last Modified by:   Junyuan Hong
-* @Last Modified time: 2014-11-25 22:22:53
+* @Last Modified time: 2014-12-02 14:56:42
 */
 
 #include <iostream>
@@ -384,7 +384,7 @@ SoundAD::GetValue(int filt_freq_min, int filt_freq_max, int win_min, int win_max
 	// memcpy(freq, sig, frames*period*sizeof(float));
 	fft.exe_fft(buffer1, buffer2); // buffer1 is amp, buffer2 is phase
 
-	filt_freq_min = filt_freq_min*(period_time*DEFAULT_PERIOD_NUM) / 1e6; //20Hz
+	filt_freq_min = filt_freq_min*(period_time*DEFAULT_PERIOD_NUM) / 1e6; // change from real frequency to index
 	filt_freq_max = filt_freq_max*(period_time*DEFAULT_PERIOD_NUM) / 1e6;
 
 	for (int i = 0; i <= filt_freq_min; ++i)
@@ -397,11 +397,11 @@ SoundAD::GetValue(int filt_freq_min, int filt_freq_max, int win_min, int win_max
 	}
 	for (int i = 0; i <= filt_freq_min; ++i)
 	{
-		buffer1[DEFAULT_FFT_LEN - i] *=1e-5;
+		buffer1[DEFAULT_FFT_LEN - i - 1] *=1e-5;
 	}
 	for (int i = filt_freq_max; i <= DEFAULT_FFT_LEN/2; ++i)
 	{
-		buffer1[DEFAULT_FFT_LEN - i] *=1e-5;
+		buffer1[DEFAULT_FFT_LEN - i - 1] *=1e-5;
 	}
 
 	fft.exe_ifft(buffer1, buffer2);
